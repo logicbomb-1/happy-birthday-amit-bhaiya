@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Amit Bhaiya</title>
+  <title>Happy Birthday Amit Bhaiya — Cricket Edition</title>
   <style>
     :root{
-      --bg1:#0b1020;
-      --bg2:#1a1f3b;
-      --accent:#ff6bd6;
-      --accent2:#7cf7ff;
+      --night:#07101f;
+      --sky:#0b1a33;
+      --grass1:#0b6b3a;
+      --grass2:#0a5a31;
       --gold:#ffd36b;
+      --aqua:#7cf7ff;
+      --pink:#ff6bd6;
       --text:#f5f7ff;
       --muted:#b9c1ff;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --card: rgba(12,20,45,.62);
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 24px 70px rgba(0,0,0,.55);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -21,11 +25,22 @@
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color:var(--text);
-      background: radial-gradient(1000px 600px at 15% 20%, rgba(255,107,214,.18), transparent 60%),
-                  radial-gradient(900px 600px at 85% 30%, rgba(124,247,255,.16), transparent 55%),
-                  radial-gradient(900px 700px at 50% 90%, rgba(255,211,107,.12), transparent 60%),
-                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      background:
+        radial-gradient(900px 520px at 15% 20%, rgba(124,247,255,.16), transparent 60%),
+        radial-gradient(900px 520px at 85% 25%, rgba(255,107,214,.14), transparent 60%),
+        radial-gradient(900px 520px at 50% 110%, rgba(255,211,107,.10), transparent 60%),
+        linear-gradient(135deg, var(--night), var(--sky));
       overflow:hidden;
+    }
+    .lights{
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(380px 180px at 15% 10%, rgba(255,255,255,.22), transparent 70%),
+        radial-gradient(380px 180px at 85% 10%, rgba(255,255,255,.22), transparent 70%),
+        radial-gradient(600px 220px at 50% 0%, rgba(255,255,255,.14), transparent 70%);
+      filter: blur(1px);
+      opacity:.9;
     }
     .stars{
       position:fixed; inset:0;
@@ -39,192 +54,259 @@
         radial-gradient(1.4px 1.4px at 780px 120px, rgba(255,255,255,.22) 40%, transparent 60%),
         radial-gradient(2px 2px at 920px 220px, rgba(255,255,255,.26) 40%, transparent 60%);
       background-size: 260px 240px;
-      opacity:.8;
+      opacity:.55;
       animation: twinkle 6s ease-in-out infinite;
       pointer-events:none;
-      filter: blur(.2px);
     }
-    @keyframes twinkle{ 0%,100%{opacity:.55} 50%{opacity:.9} }
-    .confetti{
-      position:fixed; inset:-10vh -10vw;
-      pointer-events:none;
-      overflow:hidden;
-    }
+    @keyframes twinkle{ 0%,100%{opacity:.45} 50%{opacity:.75} }
+    .confetti{ position:fixed; inset:-10vh -10vw; pointer-events:none; overflow:hidden; }
     .confetti span{
-      position:absolute;
-      width:10px; height:16px;
-      border-radius:3px;
-      opacity:.9;
+      position:absolute; width:10px; height:16px; border-radius:3px; opacity:.9;
       transform: translate3d(0,-120vh,0) rotate(0deg);
       animation: fall linear infinite;
       box-shadow: 0 10px 20px rgba(0,0,0,.25);
     }
-    @keyframes fall{ to{ transform: translate3d(0,120vh,0) rotate(720deg); } }
+    @keyframes fall{ to{ transform: translate3d(0,120vh,0) rotate(720deg);} }
+    .ground{
+      position:fixed; left:0; right:0; bottom:-1px; height:44vh;
+      background:
+        radial-gradient(1200px 360px at 50% 0%, rgba(0,0,0,.0), rgba(0,0,0,.35) 70%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.0) 0 24px, rgba(255,255,255,.03) 24px 28px),
+        linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.28)),
+        linear-gradient(135deg, var(--grass1), var(--grass2));
+      clip-path: ellipse(110% 70% at 50% 100%);
+      pointer-events:none;
+    }
+    .pitch{
+      position:fixed; left:50%; bottom:6vh; transform: translateX(-50%);
+      width:min(520px, 82vw); height: 160px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.0)),
+        linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.0) 30%, rgba(255,255,255,.06)),
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.0)),
+        linear-gradient(180deg, #e3caa2, #c8a57b);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      box-shadow: 0 30px 70px rgba(0,0,0,.35);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .crease{
+      position:absolute; left:12%; right:12%; top:24%;
+      height:2px; background: rgba(246,241,230,.8);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.10);
+    }
+    .stumps{
+      position:absolute; left:50%; top:50%; transform: translate(-50%,-50%);
+      display:flex; gap:6px;
+    }
+    .stump{
+      width:10px; height:58px;
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.65));
+      border-radius:6px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.25);
+    }
+    .bails{
+      position:absolute; left:50%; top:calc(50% - 32px); transform: translateX(-50%);
+      width:64px; height:10px;
+      background: linear-gradient(90deg, rgba(255,255,255,.85), rgba(255,255,255,.55));
+      border-radius:999px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+    }
+
     .wrap{
       position:relative;
       min-height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding: 36px 18px;
+      padding: 34px 16px;
     }
     .card{
-      width:min(860px, 96vw);
-      background: linear-gradient(180deg, rgba(17,23,53,.78), rgba(17,23,53,.55));
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 28px;
+      width:min(980px, 96vw);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 26px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      overflow:hidden;
+      backdrop-filter: blur(12px);
       position:relative;
+      overflow:hidden;
     }
     .glow{
       position:absolute; inset:-2px;
-      background: radial-gradient(800px 300px at 30% 0%, rgba(255,107,214,.35), transparent 60%),
-                  radial-gradient(700px 300px at 75% 10%, rgba(124,247,255,.25), transparent 60%);
-      opacity:.8;
-      filter: blur(18px);
+      background:
+        radial-gradient(800px 240px at 20% 0%, rgba(124,247,255,.24), transparent 60%),
+        radial-gradient(820px 260px at 80% 0%, rgba(255,107,214,.18), transparent 60%),
+        radial-gradient(900px 320px at 50% 110%, rgba(255,211,107,.12), transparent 65%);
+      filter: blur(16px);
+      opacity:.9;
       pointer-events:none;
     }
-    header{
-      position:relative;
-      padding: 44px 34px 18px;
-      text-align:center;
-    }
+    header{ position:relative; padding: 34px 24px 14px; text-align:center; }
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 16px;
-      border-radius: 999px;
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 10px 16px; border-radius: 999px;
       background: rgba(255,255,255,.08);
       border: 1px solid rgba(255,255,255,.12);
-      color: var(--muted);
-      font-weight: 600;
+      color: rgba(245,247,255,.86);
+      font-weight: 700;
       letter-spacing:.2px;
     }
-    .badge .dot{
-      width:10px; height:10px;
-      border-radius:999px;
-      background: conic-gradient(from 0deg, var(--accent), var(--accent2), var(--gold), var(--accent));
-      box-shadow: 0 0 16px rgba(255,107,214,.45);
+    .badge .ball{
+      width:14px; height:14px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,211,107,.95) 55%, rgba(160,105,10,.95));
+      box-shadow: 0 0 18px rgba(255,211,107,.45);
+      position:relative;
+    }
+    .badge .ball:after{
+      content:"";
+      position:absolute; inset:2px 6px;
+      border-left: 2px dashed rgba(255,255,255,.55);
+      opacity:.9;
     }
     h1{
-      margin: 18px 0 10px;
-      font-size: clamp(36px, 5.2vw, 64px);
-      line-height:1.04;
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 5.0vw, 62px);
+      line-height:1.05;
       letter-spacing:-.02em;
       text-shadow: 0 14px 30px rgba(0,0,0,.35);
     }
-    h1 .name{
-      background: linear-gradient(90deg, var(--gold), var(--accent2), var(--accent));
-      -webkit-background-clip:text;
-      background-clip:text;
+    .name{
+      background: linear-gradient(90deg, var(--gold), var(--aqua), var(--pink));
+      -webkit-background-clip:text; background-clip:text;
       color:transparent;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.28));
       white-space:nowrap;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.28));
     }
     .sub{
       margin:0 auto;
-      max-width: 640px;
+      max-width: 740px;
       font-size: clamp(15px, 2.2vw, 18px);
-      line-height:1.6;
-      color: rgba(245,247,255,.86);
+      line-height:1.65;
+      color: rgba(245,247,255,.88);
     }
     .content{
       position:relative;
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 18px;
-      padding: 24px 34px 36px;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
+      padding: 18px 24px 26px;
     }
-    @media (max-width: 760px){
-      .content{grid-template-columns: 1fr; padding: 18px 18px 28px;}
-      header{padding: 34px 18px 10px;}
-      h1 .name{white-space:normal;}
+    @media (max-width: 860px){
+      .content{grid-template-columns: 1fr; padding: 14px 16px 22px;}
+      header{padding: 28px 16px 10px;}
+      .name{white-space:normal;}
     }
     .panel{
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.10);
-      border-radius: 22px;
-      padding: 18px 18px;
+      border-radius: 20px;
+      padding: 16px;
       position:relative;
       overflow:hidden;
     }
     .panel:before{
       content:"";
       position:absolute; inset:-1px;
-      background: radial-gradient(500px 160px at 20% 0%, rgba(255,107,214,.22), transparent 60%),
-                  radial-gradient(420px 140px at 80% 10%, rgba(124,247,255,.18), transparent 60%);
+      background:
+        radial-gradient(520px 180px at 20% 0%, rgba(124,247,255,.18), transparent 60%),
+        radial-gradient(520px 180px at 80% 0%, rgba(255,107,214,.14), transparent 60%);
       opacity:.9;
       pointer-events:none;
     }
     .panel > *{position:relative}
-    .panel h2{
-      margin: 0 0 10px;
-      font-size: 18px;
-      letter-spacing:.2px;
-      color: rgba(245,247,255,.92);
+    .scoreboard{
+      padding: 18px 16px;
+      background: linear-gradient(180deg, rgba(0,0,0,.32), rgba(0,0,0,.12));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      position:relative;
     }
+    .score-top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+    }
+    .team{ font-weight:800; letter-spacing:.4px; color: rgba(245,247,255,.92); }
+    .overs{ font-size: 13px; color: rgba(185,193,255,.95); font-weight:700; }
+    .score{
+      margin-top: 10px;
+      display:flex; align-items:baseline; gap:10px; justify-content:center;
+      font-variant-numeric: tabular-nums;
+    }
+    .runs{
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing:-.02em;
+      background: linear-gradient(90deg, var(--gold), var(--aqua));
+      -webkit-background-clip:text; background-clip:text;
+      color:transparent;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+    }
+    .wkts{ font-size: 18px; font-weight: 800; color: rgba(245,247,255,.86); opacity:.95; }
+    .ticker{
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(245,247,255,.86);
+      font-size: 14px;
+      line-height:1.5;
+    }
+    .batball{
+      display:flex; align-items:center; justify-content:center;
+      gap: 14px;
+      margin-top: 14px;
+      flex-wrap:wrap;
+    }
+    .bat{
+      width: 160px; height: 18px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #f1d6aa, #cfa06b);
+      position:relative;
+      box-shadow: 0 16px 30px rgba(0,0,0,.35);
+      transform: rotate(-12deg);
+    }
+    .bat:before{
+      content:"";
+      position:absolute; left:-20px; top:50%;
+      transform: translateY(-50%);
+      width: 28px; height: 28px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #2b314a, #161b2f);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .ball2{
+      width: 22px; height: 22px; border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,107,214,.95) 60%, rgba(140,20,110,.95));
+      position:relative;
+      box-shadow: 0 16px 28px rgba(0,0,0,.35);
+      animation: bounce 1.4s ease-in-out infinite;
+    }
+    .ball2:after{
+      content:"";
+      position:absolute; inset:4px 9px;
+      border-left: 2px dashed rgba(255,255,255,.65);
+      opacity:.9;
+    }
+    @keyframes bounce{ 0%,100%{transform: translateY(0)} 50%{transform: translateY(-10px)} }
     .wish{
       margin:0;
-      font-size: 16px;
+      font-size: 15.5px;
       line-height: 1.75;
-      color: rgba(245,247,255,.86);
+      color: rgba(245,247,255,.88);
     }
-    .balloons{
-      display:flex;
-      gap:14px;
-      justify-content:center;
-      align-items:flex-end;
-      padding: 6px 0 2px;
-    }
-    .balloon{
-      width: 54px; height: 68px;
-      border-radius: 999px;
-      position:relative;
-      filter: drop-shadow(0 16px 20px rgba(0,0,0,.35));
-      animation: float 3.6s ease-in-out infinite;
-    }
-    .balloon:after{
-      content:"";
-      position:absolute;
-      bottom:-10px; left:50%;
-      transform: translateX(-50%);
-      width: 0; height: 0;
-      border-left: 7px solid transparent;
-      border-right: 7px solid transparent;
-      border-top: 12px solid rgba(255,255,255,.35);
-      opacity:.8;
-    }
-    .string{
-      width:2px; height: 54px;
-      background: rgba(255,255,255,.25);
-      margin: -2px auto 0;
-      border-radius:2px;
-    }
-    @keyframes float{ 0%,100%{transform: translateY(0)} 50%{transform: translateY(-10px)} }
-    .b1{background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), rgba(255,107,214,.95) 45%, rgba(140,20,110,.95)); animation-delay:.0s;}
-    .b2{background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), rgba(124,247,255,.95) 45%, rgba(10,120,140,.95)); animation-delay:.4s;}
-    .b3{background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), rgba(255,211,107,.95) 45%, rgba(160,105,10,.95)); animation-delay:.2s;}
-    .b4{background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), rgba(183,130,255,.95) 45%, rgba(90,40,150,.95)); animation-delay:.6s;}
     .cta{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:center;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center;
       margin-top: 14px;
     }
     button{
-      appearance:none;
-      border:0;
-      border-radius: 999px;
+      appearance:none; border:0; border-radius: 999px;
       padding: 12px 16px;
-      font-weight: 700;
-      letter-spacing:.2px;
-      color:#0b1020;
-      background: linear-gradient(90deg, var(--gold), var(--accent2));
+      font-weight: 800; letter-spacing:.2px;
+      color:#091022;
+      background: linear-gradient(90deg, var(--gold), var(--aqua));
       box-shadow: 0 14px 30px rgba(0,0,0,.35);
       cursor:pointer;
       transition: transform .12s ease, filter .2s ease;
@@ -233,22 +315,22 @@
     button:active{transform: translateY(0px);}
     .secondary{
       background: rgba(255,255,255,.10);
-      color: rgba(245,247,255,.9);
+      color: rgba(245,247,255,.92);
       border: 1px solid rgba(255,255,255,.16);
       box-shadow:none;
     }
     footer{
       text-align:center;
-      padding: 12px 18px 26px;
-      color: rgba(185,193,255,.9);
+      padding: 10px 16px 22px;
+      color: rgba(185,193,255,.92);
       font-size: 13px;
     }
     .toast{
       position: fixed;
       left: 50%;
-      bottom: 22px;
+      bottom: 18px;
       transform: translateX(-50%);
-      background: rgba(17,23,53,.92);
+      background: rgba(12,20,45,.94);
       border: 1px solid rgba(255,255,255,.14);
       color: rgba(245,247,255,.92);
       padding: 10px 14px;
@@ -260,58 +342,88 @@
       backdrop-filter: blur(10px);
       font-size: 14px;
     }
-    .toast.show{
-      opacity: 1;
-      transform: translateX(-50%) translateY(-4px);
+    .toast.show{ opacity: 1; transform: translateX(-50%) translateY(-4px); }
+    .wave{ display:inline-block; animation: wave 1.6s ease-in-out infinite; transform-origin: 70% 70%; }
+    @keyframes wave{
+      0%,100%{transform: rotate(0deg)}
+      20%{transform: rotate(6deg)}
+      40%{transform: rotate(-6deg)}
+      60%{transform: rotate(5deg)}
+      80%{transform: rotate(-3deg)}
     }
   </style>
 </head>
 <body>
   <div class="stars"></div>
+  <div class="lights"></div>
   <div class="confetti" aria-hidden="true" id="confetti"></div>
 
+  <div class="ground" aria-hidden="true"></div>
+  <div class="pitch" aria-hidden="true">
+    <div class="crease"></div>
+    <div class="bails"></div>
+    <div class="stumps">
+      <div class="stump"></div><div class="stump"></div><div class="stump"></div>
+    </div>
+  </div>
+
   <main class="wrap">
-    <section class="card" role="article" aria-label="Birthday greeting">
+    <section class="card" role="article" aria-label="Cricket birthday greeting">
       <div class="glow" aria-hidden="true"></div>
 
       <header>
-        <div class="badge"><span class="dot"></span> A special day deserves a special wish</div>
-        <h1>Happy Birthday <span class="name">Amit Bhaiya</span>!</h1>
+        <div class="badge"><span class="ball"></span> Stadium lights on. Birthday match begins.</div>
+        <h1>Happy Birthday <span class="name">Amit Bhaiya</span> <span class="wave">🏏</span></h1>
         <p class="sub">
-          Wishing you a year filled with health, happiness, and success. May your days be bright,
-          your dreams be bigger, and your smile always stay the same.
+          Wishing you a year full of match-winning moments—solid partnerships, clean hits, and plenty of reasons to celebrate.
         </p>
       </header>
 
       <div class="content">
         <div class="panel">
-          <h2>Warm wishes</h2>
-          <p class="wish" id="wishText">
-            May your birthday be as wonderful as you are. Thank you for always being supportive and inspiring.
-            Here's to more laughter, cricket, and more memories, and more achievements ahead.
-          </p>
+          <h2 style="margin:0 0 10px; font-size:18px; letter-spacing:.2px;">Your birthday scoreboard</h2>
+
+          <div class="scoreboard" aria-label="Birthday scoreboard">
+            <div class="score-top">
+              <div class="team">AMIT XI</div>
+              <div class="overs">Overs: 20.0 • Venue: Quince Stadium</div>
+            </div>
+
+            <div class="score" aria-label="Score">
+              <div class="runs">🎂 100*</div>
+              <div class="wkts">Not Out</div>
+            </div>
+
+            <div class="ticker" id="ticker">
+              Commentary: Amit Bhaiya is on strike… and that’s a BEAUTY! Another year, another milestone.
+            </div>
+
+            <div class="batball" aria-hidden="true">
+              <div class="bat"></div>
+              <div class="ball2"></div>
+            </div>
+          </div>
+
           <div class="cta">
-            <button id="celebrateBtn" type="button">Celebrate</button>
+            <button id="celebrateBtn" type="button">Hit a Six</button>
             <button class="secondary" id="copyBtn" type="button">Copy message</button>
           </div>
         </div>
 
         <div class="panel">
-          <h2>Sending balloons your way</h2>
-          <div class="balloons" aria-hidden="true">
-            <div><div class="balloon b1"></div><div class="string"></div></div>
-            <div><div class="balloon b2"></div><div class="string"></div></div>
-            <div><div class="balloon b3"></div><div class="string"></div></div>
-            <div><div class="balloon b4"></div><div class="string"></div></div>
-          </div>
-          <p class="wish" style="margin-top:12px">
-            May this new year bring you more joy, great health, and countless reasons to celebrate.
+          <h2 style="margin:0 0 10px; font-size:18px; letter-spacing:.2px;">Birthday wish</h2>
+          <p class="wish">
+            Amit Bhaiya, may your year be packed with perfect cover drives, fearless pulls, and calm finishes.
+            Wishing you great health, constant joy, and a winning streak that never ends.
+          </p>
+          <p class="wish" style="margin-top:10px; color: rgba(245,247,255,.82);">
+            May every challenge be a dot ball, and every opportunity a boundary.
           </p>
         </div>
       </div>
 
       <footer>
-        Made with gratitude and good vibes from Cricket Lovers Family.
+        Made for a true cricketer — cheers to the captain of the day.
       </footer>
     </section>
   </main>
@@ -320,16 +432,16 @@
 
   <script>
     const confetti = document.getElementById('confetti');
-    const colors = ['#ff6bd6','#7cf7ff','#ffd36b','#b782ff','#66ffb2','#ffffff'];
-    const pieces = 120;
+    const colors = ['#ffd36b','#7cf7ff','#ff6bd6','#b782ff','#66ffb2','#ffffff'];
+    const pieces = 140;
 
     function seedConfetti() {
       confetti.innerHTML = '';
       for (let i=0; i<pieces; i++){
         const s = document.createElement('span');
         const left = Math.random() * 100;
-        const delay = Math.random() * 1.6;
-        const dur = 3.8 + Math.random() * 3.8;
+        const delay = Math.random() * 1.2;
+        const dur = 3.2 + Math.random() * 3.6;
         const size = 7 + Math.random() * 10;
         s.style.left = left + 'vw';
         s.style.top = (-10 - Math.random()*30) + 'vh';
@@ -350,16 +462,34 @@
       toast.textContent = msg;
       toast.classList.add('show');
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=>toast.classList.remove('show'), 2200);
+      toastTimer = setTimeout(()=>toast.classList.remove('show'), 2300);
+    }
+
+    const ticker = document.getElementById('ticker');
+    const lines = [
+      "Commentary: Amit Bhaiya steps out… and times it perfectly! Classic.",
+      "Commentary: That’s a crisp drive through covers — pure class.",
+      "Commentary: Short ball… pulled away for FOUR! Birthday vibes only.",
+      "Commentary: Full toss… punished for SIX! The crowd goes wild.",
+      "Commentary: Calm under pressure — finishing in style. Not out!"
+    ];
+    let idx = 0;
+    function nextLine(){
+      idx = (idx + 1) % lines.length;
+      ticker.textContent = lines[idx];
     }
 
     document.getElementById('celebrateBtn').addEventListener('click', () => {
       seedConfetti();
-      showToast('Happy Birthday, Amit Bhaiya!');
+      nextLine();
+      showToast('SIX! Happy Birthday, Amit Bhaiya!');
     });
 
     document.getElementById('copyBtn').addEventListener('click', async () => {
-      const msg = `Happy Birthday Amit Bhaiya!\n\nWishing you a year filled with health, happiness, and success. May your days be bright, your dreams be bigger, and your smile always stay the same.`;
+      const msg = `Happy Birthday Amit Bhaiya! 🏏
+
+Wishing you a year full of match-winning moments—solid partnerships, clean hits, and plenty of reasons to celebrate.
+May every challenge be a dot ball, and every opportunity a boundary.`;
       try{
         await navigator.clipboard.writeText(msg);
         showToast('Message copied to clipboard.');
@@ -369,6 +499,7 @@
     });
 
     seedConfetti();
+    setInterval(nextLine, 5200);
   </script>
 </body>
 </html>
